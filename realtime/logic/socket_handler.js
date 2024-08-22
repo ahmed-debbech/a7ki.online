@@ -12,8 +12,8 @@ class SocketHandler {
         events.onMessage(user, message)
     }
 
-    static onDisconnected(){
-        events.onDisconnected()
+    static onDisconnected(user){
+        events.onDisconnected(user)
     }
 }
 

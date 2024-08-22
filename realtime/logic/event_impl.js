@@ -1,5 +1,6 @@
 var network = require('../network/namer')
 const WebSocket = require('ws');
+var Message = require('../model/Message')
 
 let connected_users = []
 
@@ -23,9 +24,11 @@ async function onConnected(user){
         for(let i =0; i<=connected_users.length-1; i++){
             if(connected_users[i].ws.readyState == WebSocket.OPEN){
                 if(connected_users[i].id != user.id){
-                    connected_users[i].ws.send(user.name + chooseGreetingMsg());
+                    let msg = new Message(user.name , user.name + chooseGreetingMsg(), Date.now());
+                    connected_users[i].ws.send(JSON.stringify(msg).toString());
                 }else{
-                    user.ws.send('3aslema, '+ user.name)
+                    let msg = new Message(user.name , '3aslema, ' + user.name, Date.now());
+                    user.ws.send(JSON.stringify(msg).toString())
                 }
             }
         }
@@ -38,15 +41,22 @@ function onMessage(user, message){
     for(let i =0; i<=connected_users.length-1; i++){
         if(connected_users[i].ws.readyState == WebSocket.OPEN){
             if(connected_users[i].id != user.id){
-                connected_users[i].ws.send(message.toString());
+                let msg = new Message(user.name , message, Date.now());
+                connected_users[i].ws.send(JSON.stringify(msg).toString());
             }
         }
     }
-
 }
 
-function onDisconnected(){
+function onDisconnected(user){
+    console.log("user with id ", user.id ," has existed")
 
+    for(let i =0; i<=connected_users.length-1; i++){
+        if(connected_users[i].id == user.id){
+            connected_users.splice(i, 1)
+            break
+        }
+    }
 }
 
 module.exports = {

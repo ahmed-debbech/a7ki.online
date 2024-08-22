@@ -27,18 +27,10 @@ function initSocketServer() {
         });
 
         ws.on('close', function close() {
-            SocketHandler.onDisconnected();
-
-            wss.clients.forEach(function each(client) {
-                if (client !== ws && client.readyState === WebSocket.OPEN) {
-                    client.send("STOPPED");
-                }
-            });
+            SocketHandler.onDisconnected(user);
         });
 
     });
-
-    console.log('WebSocket server is running on ws://localhost:8080');
 
 }
 
