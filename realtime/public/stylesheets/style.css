@@ -1,8 +1,188 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  color: #00B7FF;
+/* Apply monospace font to the entire page */
+body {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Header styling */
+.header {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Welcome section styling */
+.welcome-section {
+  text-align: center;
+  margin-top: 60px; /* to avoid overlapping with the fixed header */
+  margin-bottom: 20px;
+}
+
+.welcome-section h2 {
+  font-size: 22px;
+  color: #333;
+}
+
+.online-users {
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Main content styling */
+.chat-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 120px); /* adjusted for header and welcome section */
+  padding: 10px;
+}
+
+.chat-box {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f9f9f9;
+}
+
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 80%;
+}
+
+.sent {
+  background-color: #e1ffc7;
+  align-self: flex-end;
+}
+
+.received {
+  background-color: #f1f0f0;
+  align-self: flex-start;
+}
+
+.message-text {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #888;
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* Input area styling */
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: white;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.input-area button {
+  padding: 10px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.input-area button:hover {
+  background-color: #45a049;
+}
+
+/* Cooldown info styling */
+.cooldown-info {
+  background-color: #f1f1f1;
+  color: #888;
+  text-align: center;
+  padding: 5px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.cooldown-info .icon {
+  margin-right: 5px;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #fdd;
+  color: #d00;
+  text-align: center;
+  padding: 5px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.error-message .icon {
+  margin-right: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .header h1 {
+      font-size: 20px;
+  }
+
+  .input-area input,
+  .input-area button {
+      font-size: 14px;
+      padding: 8px;
+  }
 }

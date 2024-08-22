@@ -5,7 +5,7 @@ class SocketHandler {
     constructor(){}
 
     static onConnected(user){
-        events.onConnected(ws)
+        events.onConnected(user)
     }
 
     static onMessage(user, message){

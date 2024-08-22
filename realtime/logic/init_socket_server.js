@@ -36,7 +36,6 @@ function initSocketServer() {
             });
         });
 
-        ws.send('Welcome to the WebSocket server');
     });
 
     console.log('WebSocket server is running on ws://localhost:8080');
