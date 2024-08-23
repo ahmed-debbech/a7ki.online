@@ -31,7 +31,6 @@ function initSocketServer() {
         });
 
     });
-
 }
 
 module.exports = initSocketServer
