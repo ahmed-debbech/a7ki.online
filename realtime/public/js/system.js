@@ -11,4 +11,8 @@ function processSystemReq(json, page){
         div.scrollTop = div.scrollHeight;
         return; 
     }
+    if(json1.numberOn){
+        let num = page.getElementById("numOn")
+        num.innerText = json1.numberOn 
+    }
 }

@@ -24,7 +24,7 @@ async function onConnected(user){
         for(let i =0; i<=connected_users.length-1; i++){
             if(connected_users[i].ws.readyState == WebSocket.OPEN){
                 if(connected_users[i].id != user.id){
-                    let msg = new Message("SYSTEM" , JSON.stringify({geet: user.name + chooseGreetingMsg()}), Date.now());
+                    let msg = new Message("SYSTEM" , JSON.stringify({greet: user.name + chooseGreetingMsg()}), Date.now());
                     connected_users[i].ws.send(JSON.stringify(msg).toString());
                 }else{
                     let msg = new Message("SYSTEM" , JSON.stringify({id: user.id, name: user.name}), Date.now());
@@ -60,5 +60,6 @@ function onDisconnected(user){
 module.exports = {
     onConnected,
     onMessage,
-    onDisconnected
+    onDisconnected,
+    connected_users
 }
