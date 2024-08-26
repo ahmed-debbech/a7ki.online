@@ -14,10 +14,31 @@ const formatTimestamp = (timestamp) => {
 };
 
 function createRecMsg(username, text, time){
-    return '<div class="message received"><div class="message-text"><b>'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
+    return '<div class="message rec"><div class="message-text"><b>'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
 }
   
-
-function createSentMsg(username, text, time){
-    return '<div class="message sent"><div class="message-text"><b>'+username+': </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
+function createSystemMsg(username, text, time){
+    return '<div class="message sys"><div class="message-text"><b>'+username+' </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
 }
+
+function createOwnMsg(username, text, time){
+    return '<div class="message own"><div class="message-text"><b>'+username+': </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
+}
+
+const popup = document.getElementById('popup');
+const popupClose = document.getElementById('popup-close');
+
+// Function to show the popup
+function showPopup(message) {
+    const popupMessage = document.getElementById('popup-message');
+    popupMessage.textContent = message;
+    popup.style.display = 'flex';
+}
+
+// Function to hide the popup
+function hidePopup() {
+    popup.style.display = 'none';
+}
+
+// Close popup when the close button is clicked
+popupClose.addEventListener('click', hidePopup);

@@ -92,13 +92,18 @@ body {
   max-width: 80%;
 }
 
-.sent {
+.sys {
+  background-color: #fdfdfdd6;
+  align-self: flex-end;
+}
+
+.own {
   background-color: #e1ffc7;
   align-self: flex-end;
 }
 
-.received {
-  background-color: #f1f0f0;
+.rec {
+  background-color: #e1e1e1;
   align-self: flex-start;
 }
 
@@ -172,6 +177,51 @@ body {
 
 .error-message .icon {
   margin-right: 5px;
+}
+
+/* Popup background */
+.popup {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1001; /* Above all other content */
+}
+
+/* Popup content */
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+/* Popup message styling */
+#popup-message {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* Popup close button */
+#popup-close {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#popup-close:hover {
+  background-color: #45a049;
 }
 
 /* Responsive design */

@@ -16,8 +16,8 @@ function chooseGreetingMsg(){
 
 async function onConnected(user){
     console.log("connecting new user with id: ", user.id);
-    //let naming = await network.call_namer();
-    let naming = "hello world"
+    let naming = await network.call_namer();
+    //let naming = "hello world"
     user.name = naming;
     if(naming != '-'){
         connected_users.push(user)
@@ -33,6 +33,11 @@ async function onConnected(user){
                 }
             }
         }
+        console.log("user succesfully connected with id: ", user.id);
+    }else{
+        console.log("user failed to connect with id: ", user.id)
+        let msg = new Message("SYSTEM" , JSON.stringify({error: 'oops!! saret mochkla ma tnejemch tconnecti, trah 3awed lansi el page.'}), Date.now());
+        user.ws.send(JSON.stringify(msg).toString())
     }
 }
 
