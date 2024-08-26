@@ -2,6 +2,12 @@ function processSystemReq(json, page){
     let json1 = JSON.parse(json.text);
     if(json1.id && json1.name){
         page.getElementById('greeting').innerText= '3aslema, ' + json1.name +'!';
+        
+        if(localStorage.getItem("userid") == null){
+            showPopup("Marhba bik fl chat room anonyme, tnejem tahki taht esm mosta3ar, m3a twensa zeda kifek kifhom." + 
+                "'a7ki.online' houwa site web sna3tou ana Ahmed Debbech."
+            )
+        }
         localStorage.setItem("userid", json1.id)
         return;
     }

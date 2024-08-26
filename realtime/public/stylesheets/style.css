@@ -89,7 +89,9 @@ body {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
-  max-width: 80%;
+  max-width: 100%;
+  inline-size: 100%;
+  overflow-wrap: break-word;
 }
 
 .sys {

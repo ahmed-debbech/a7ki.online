@@ -57,10 +57,10 @@
                 <input id="field" type="text" placeholder="Ab3th msg... (ay wehed ynejem ychoufou, be nice :))" />
                 <button id="send" type="button">Ab3ath</button>
             </div>
-            <div class="cooldown-info">
-                <span class="icon">🕒</span> stana 4 secondes... (yezi mil spam)
+            <div hidden id="cooldown" class="cooldown-info">
+                <span class="icon">🕒</span> stana <span id="numberCoolSec">4</span> secondes... (yezi mil spam)
             </div>
-            <div class="error-message">
+            <div hidden id="error_mesg" class="error-message">
                 <span class="icon">❗</span> Oops! bechwaya thama mochkla, trah 3awed.
             </div>
         </div>
@@ -79,7 +79,6 @@
     <script>
         document.getElementById("send").addEventListener('click', () => {
             sendMessage(mySocket, document.getElementById("field").value)
-            document.getElementById("field").value = ""
         })
     </script>
 
