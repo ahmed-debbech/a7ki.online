@@ -2,7 +2,7 @@ function processSystemReq(json, page){
     let json1 = JSON.parse(json.text);
     if(json1.id && json1.name){
         page.getElementById('greeting').innerText= '3aslema, ' + json1.name +'!';
-        localStorage.setItem("name", json1.name)
+        localStorage.setItem("userid", json1.id)
         return;
     }
     if(json1.greet){

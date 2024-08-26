@@ -23,7 +23,7 @@
             }
 
             let div = document.getElementById('msgs')
-            if(json.userName == localStorage.getItem('name')){
+            if(json.userid == localStorage.getItem('userid')){
                 div.innerHTML += createOwnMsg(json.userName, json.text, json.time)
             }else{
                 div.innerHTML += createRecMsg(json.userName, json.text, json.time)
