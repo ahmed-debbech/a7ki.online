@@ -42,3 +42,5 @@ function hidePopup() {
 
 // Close popup when the close button is clicked
 popupClose.addEventListener('click', hidePopup);
+
+document.getElementById("send").disabled = true

@@ -26,6 +26,7 @@ function processSystemReq(json, page){
             console.log(json1.messages[i])
             publishMsg(json1.messages[i])
         }
+        document.getElementById("send").disabled = false
     }
     if(json1.error){
         showPopup(json1.error.toString())

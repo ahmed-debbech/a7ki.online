@@ -32,7 +32,7 @@ async function onConnected(user){
                     let msg = new Message("SYSTEM" , JSON.stringify({id: user.id, name: user.name}), Date.now(), user.id);
                     user.ws.send(JSON.stringify(msg).toString())
 
-                    let msgs = redis.getMessages()
+                    let msgs = await redis.getMessages()
                     msg = new Message("SYSTEM" , JSON.stringify({messages: msgs}), Date.now());
                     user.ws.send(JSON.stringify(msg).toString())
                 }
@@ -47,6 +47,9 @@ async function onConnected(user){
 }
 
 function onMessage(user, message){
+
+    //implement cooldown check feature
+    
     console.log("user with id ", user.id ," sent a message")
     
     for(let i =0; i<=connected_users.length-1; i++){
