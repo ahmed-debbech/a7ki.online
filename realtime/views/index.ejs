@@ -12,6 +12,16 @@
 
     <script>
 
+        function publishMsg(json){
+            let div = document.getElementById('msgs')
+            if(json.userid == localStorage.getItem('userid')){
+                div.innerHTML += createOwnMsg(json.userName, json.text, json.time)
+            }else{
+                div.innerHTML += createRecMsg(json.userName, json.text, json.time)
+            }
+            div.scrollTop = div.scrollHeight;
+        }
+
         var mySocket = new WebSocket('ws://' + window.location.hostname + ':6061' );
         
         mySocket.onmessage = function (event) {
@@ -22,13 +32,7 @@
                 return;
             }
 
-            let div = document.getElementById('msgs')
-            if(json.userid == localStorage.getItem('userid')){
-                div.innerHTML += createOwnMsg(json.userName, json.text, json.time)
-            }else{
-                div.innerHTML += createRecMsg(json.userName, json.text, json.time)
-            }
-            div.scrollTop = div.scrollHeight;
+            publishMsg(json)
         };
         mySocket.onclose = (event) => {
             console.log("closed ws")

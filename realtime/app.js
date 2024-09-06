@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cron = require('./logic/chronic')
+require('dotenv').config()
+require('./redis/redis').startRedisClient()
 
 var indexRouter = require('./routes/index');
 
@@ -25,6 +27,7 @@ app.use('/', indexRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {

@@ -1,6 +1,7 @@
 var network = require('../network/namer')
 const WebSocket = require('ws');
 var Message = require('../model/Message')
+var redis = require('../redis/impl')
 
 let connected_users = []
 
@@ -30,6 +31,10 @@ async function onConnected(user){
                 }else{
                     let msg = new Message("SYSTEM" , JSON.stringify({id: user.id, name: user.name}), Date.now(), user.id);
                     user.ws.send(JSON.stringify(msg).toString())
+
+                    let msgs = redis.getMessages()
+                    msg = new Message("SYSTEM" , JSON.stringify({messages: msgs}), Date.now());
+                    user.ws.send(JSON.stringify(msg).toString())
                 }
             }
         }
@@ -47,6 +52,7 @@ function onMessage(user, message){
     for(let i =0; i<=connected_users.length-1; i++){
         if(connected_users[i].ws.readyState == WebSocket.OPEN){
             let msg = new Message(user.name , message, Date.now(), user.id);
+            redis.saveToRedis(msg);
             connected_users[i].ws.send(JSON.stringify(msg).toString());
         }
     }

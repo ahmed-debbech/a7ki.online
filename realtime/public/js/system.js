@@ -21,6 +21,12 @@ function processSystemReq(json, page){
         let num = page.getElementById("numOn")
         num.innerText = json1.numberOn 
     }
+    if(json1.messages){
+        for(let i=0; i<=json1.messages.length-1; i++){
+            console.log(json1.messages[i])
+            publishMsg(json1.messages[i])
+        }
+    }
     if(json1.error){
         showPopup(json1.error.toString())
     }
