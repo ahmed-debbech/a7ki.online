@@ -1,6 +1,11 @@
 const WebSocket = require('ws');
 const SocketHandler = require('./socket_handler')
 const User = require("../model/user");
+var redis = require('../redis/impl')
+
+async function assign(){
+    return await redis.assignNewUserId();
+}
 
 function initSocketServer() {
 
@@ -9,9 +14,9 @@ function initSocketServer() {
         port: 6061
     });
 
-    wss.on('connection', function connection(ws) {
+    wss.on('connection', async function connection(ws) {
 
-        let user = new User(ws, ws._socket.remoteAddress);
+        let user = new User(await assign() ,ws, ws._socket.remoteAddress);
         SocketHandler.onConnected(user);
 
         // Handle incoming messages from clients

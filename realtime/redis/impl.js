@@ -1,3 +1,4 @@
+const User = require("../model/user");
 var redis = require("./redis")
 
 function saveToRedis(msg){
@@ -26,7 +27,21 @@ async function getMessages(){
     return msgs;
 }
 
+async function assignNewUserId(){
+    let last_id = await redis.getRedis().incr("last_user_id");
+    
+    return last_id;
+}
+
+async function saveNewUser(user){
+    let uuser = new User(user.id, undefined, user.ip)
+    uuser.name = user.name
+    await redis.getRedis().set("u" + user.id ,JSON.stringify(uuser))
+}
+
 module.exports = {
     saveToRedis,
-    getMessages
+    getMessages,
+    assignNewUserId,
+    saveNewUser
 }

@@ -23,6 +23,7 @@ async function onConnected(user){
     user.name = naming;
     if(naming != '-'){
         connected_users.push(user)
+        redis.saveNewUser(user)
         let greeting = chooseGreetingMsg()
         for(let i =0; i<=connected_users.length-1; i++){
             if(connected_users[i].ws.readyState == WebSocket.OPEN){
