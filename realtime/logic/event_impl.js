@@ -2,6 +2,7 @@ var network = require('../network/namer')
 const WebSocket = require('ws');
 var Message = require('../model/Message')
 var redis = require('../redis/impl')
+var cool = require('../logic/cooldown')
 
 let connected_users = []
 
@@ -49,7 +50,8 @@ async function onConnected(user){
 function onMessage(user, message){
 
     //implement cooldown check feature
-    
+    if(!cool.checkCooldown(user.id)) return;
+
     console.log("user with id ", user.id ," sent a message")
     
     for(let i =0; i<=connected_users.length-1; i++){

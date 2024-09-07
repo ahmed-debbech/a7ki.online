@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/system.js"></script>
 
     <script>
+        let areRedisMessagesReady = false;
 
         function publishMsg(json){
             let div = document.getElementById('msgs')
@@ -24,6 +25,7 @@
 
         var mySocket = new WebSocket('ws://' + window.location.hostname + ':6061' );
         
+        var pendindMsgs = []
         mySocket.onmessage = function (event) {
             let json = JSON.parse(event.data);
 
@@ -31,8 +33,11 @@
                 processSystemReq(json, document);
                 return;
             }
-
-            publishMsg(json)
+            if(areRedisMessagesReady == false){
+                pendindMsgs.push(json);
+            }else{
+                publishMsg(json)
+            }
         };
         mySocket.onclose = (event) => {
             showPopup("alo! alo! ta9rib reseaux 9as, trah refreshi el page")

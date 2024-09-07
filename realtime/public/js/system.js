@@ -27,6 +27,10 @@ function processSystemReq(json, page){
             publishMsg(json1.messages[i])
         }
         document.getElementById("send").disabled = false
+        areRedisMessagesReady = true;
+        for(let o = 0; 0 <=pendindMsgs.length-1; o++){
+            publishMsg(pendindMsgs[o]);
+        }
     }
     if(json1.error){
         showPopup(json1.error.toString())
