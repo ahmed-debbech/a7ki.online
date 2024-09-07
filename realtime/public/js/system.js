@@ -32,6 +32,13 @@ function processSystemReq(json, page){
             publishMsg(pendindMsgs[o]);
         }
     }
+    if(json1.cooldown != undefined){
+        if(json1.cooldown == true){
+            cooldown()
+        }else{
+            document.getElementById("field").value = ""
+        }
+    }
     if(json1.error){
         showPopup(json1.error.toString())
     }

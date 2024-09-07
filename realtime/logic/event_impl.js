@@ -51,7 +51,7 @@ async function onConnected(user){
 function onMessage(user, message){
 
     //implement cooldown check feature
-    if(!cool.checkCooldown(user.id)) return;
+    if(!cool.checkCooldown(user)) return;
 
     console.log("user with id ", user.id ," sent a message")
     
