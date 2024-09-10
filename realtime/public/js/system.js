@@ -38,6 +38,7 @@ function processSystemReq(json, page){
         }else{
             document.getElementById("field").value = ""
         }
+        document.getElementById("field").focus();
     }
     if(json1.error){
         showPopup(json1.error.toString())

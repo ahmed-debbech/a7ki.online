@@ -92,12 +92,14 @@ body {
   flex-direction: column; /* Stack messages and input-area vertically */
   width: 100%;
   max-width: 600px;
-  height: 500px; /* Fixed height for the chat box */
+  height: 78vh; /* Fixed height for the chat box */
   border: 1px solid #ddd;
   border-radius: 8px; /* More rounded corners */
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
   overflow: hidden; /* Prevent content overflow */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Messages section */

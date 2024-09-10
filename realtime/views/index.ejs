@@ -65,7 +65,7 @@
             <div class="messages" id="msgs">
             </div>
             <div class="input-area">
-                <input id="field" type="text" placeholder="Ab3th msg... (ay wehed ynejem ychoufou, be nice :))" />
+                <input id="field" type="text" placeholder="Ab3th msg ness el kol tchoufou..." />
                 <button id="send" type="button">Ab3ath</button>
             </div>
             <div hidden id="cooldown" class="cooldown-info">
@@ -91,6 +91,12 @@
         document.getElementById("send").addEventListener('click', () => {
             sendMessage(mySocket, document.getElementById("field").value)
         })
+        const textInput = document.getElementById('field');
+        textInput.addEventListener('keydown', (event) => {
+            if (event.key == 'Enter' || event.keyCode === 13) {
+                sendMessage(mySocket, document.getElementById("field").value)
+            }
+        });
     </script>
 
 
