@@ -4,8 +4,8 @@ function processSystemReq(json, page){
         page.getElementById('greeting').innerText= '3aslema, ' + json1.name +'!';
         
         if(localStorage.getItem("userid") == null){
-            showPopup("Marhba bik fl chat room anonyme, tnejem tahki taht esm mosta3ar, m3a twensa zeda kifek kifhom." + 
-                "'a7ki.online' houwa site web sna3tou ana Ahmed Debbech."
+            showPopup("Marhba bik fi chat room anonyme, tnejem tahki taht esm mosta3ar, m3a twensa kifek kifhom." + 
+                " Brabi rodbelek m spamers w ma tenzel 3la hatta lien yab3thouh! enjooooy <3"
             )
         }
         localStorage.setItem("userid", json1.id)
