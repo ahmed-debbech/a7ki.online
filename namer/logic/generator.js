@@ -1,6 +1,7 @@
 var db = require('./database')
+var colorGen = require("randomcolor")
 
-function generate(){
+function generateName(){
     let finalName = ''
 
     let index = Math.floor(Math.random() * (db.Name.length - 0) + 0)
@@ -15,6 +16,18 @@ function generate(){
     return finalName
 }
 
+function generateColor(){
+    let rand
+    if(Math.round(Math.random()) == 1)
+        rand = colorGen.randomColor({luminosity: "dark"})
+    else
+        rand = colorGen.randomColor({luminosity: "bright"})
+
+    console.log(rand)
+    return rand;
+}
+
 module.exports = {
-    generate
+    generateName,
+    generateColor
 }

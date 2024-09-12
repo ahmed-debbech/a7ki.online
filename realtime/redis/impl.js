@@ -34,7 +34,7 @@ async function assignNewUserId(){
 }
 
 async function saveNewUser(user){
-    let uuser = new User(user.id, undefined, user.ip)
+    let uuser = new User(user.id, undefined, user.ip, user.color)
     uuser.name = user.name
     await redis.getRedis().set("u" + user.id ,JSON.stringify(uuser))
 }

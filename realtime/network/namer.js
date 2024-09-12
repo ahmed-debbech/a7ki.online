@@ -8,10 +8,10 @@ async function call_namer(){
     return '-'
   }
 
-  if(name.data == undefined || name.data.name == undefined){
+  if(name.data == undefined || name.data.name == undefined || name.data.color == undefined){
     return '-'
   }
-  return name.data.name
+  return name.data
 }
 
 module.exports = {

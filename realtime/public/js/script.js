@@ -13,16 +13,16 @@ const formatTimestamp = (timestamp) => {
     return new Intl.DateTimeFormat('en-GB', options).format(date);
 };
 
-function createRecMsg(username, text, time){
-    return '<div class="message rec"><div class="message-text"><b>'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
+function createRecMsg(username, color, text, time){
+    return '<div class="message rec"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
 }
   
 function createSystemMsg(username, text, time){
     return '<div class="message sys"><div class="message-text"><b>'+username+' </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
 }
 
-function createOwnMsg(username, text, time){
-    return '<div class="message own"><div class="message-text"><b>'+username+': </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
+function createOwnMsg(username,color, text, time){
+    return '<div class="message own"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
 }
 
 const popup = document.getElementById('popup');

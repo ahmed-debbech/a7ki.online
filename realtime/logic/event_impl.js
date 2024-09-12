@@ -20,7 +20,8 @@ async function onConnected(user){
     console.log("connecting new user with id: ", user.id);
     let naming = await network.call_namer();
     //let naming = "hello world"
-    user.name = naming;
+    user.name = naming.name;
+    user.color = naming.color; 
     if(naming != '-'){
         connected_users.push(user)
         redis.saveNewUser(user)
@@ -57,7 +58,7 @@ function onMessage(user, message){
     
     for(let i =0; i<=connected_users.length-1; i++){
         if(connected_users[i].ws.readyState == WebSocket.OPEN){
-            let msg = new Message(user.name , message, Date.now(), user.id);
+            let msg = new Message(user.name , message, Date.now(), user.id, user.color);
             redis.saveToRedis(msg);
             connected_users[i].ws.send(JSON.stringify(msg).toString());
         }

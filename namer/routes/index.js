@@ -4,7 +4,8 @@ var gen = require('../logic/generator')
 
 router.get('/gen', function(req, res, next) {
   res.send({
-    name: gen.generate()
+    name: gen.generateName(),
+    color: gen.generateColor()
   });
 });
 

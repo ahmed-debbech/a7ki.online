@@ -17,9 +17,9 @@
         function publishMsg(json){
             let div = document.getElementById('msgs')
             if(json.userid == localStorage.getItem('userid')){
-                div.innerHTML += createOwnMsg(json.userName, json.text, json.time)
+                div.innerHTML += createOwnMsg(json.userName, json.userColor,json.text, json.time)
             }else{
-                div.innerHTML += createRecMsg(json.userName, json.text, json.time)
+                div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
             }
             div.scrollTop = div.scrollHeight;
         }
