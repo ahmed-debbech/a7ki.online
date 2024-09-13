@@ -13,32 +13,38 @@
 
     <script>
         let areRedisMessagesReady = false;
+        var pendindMsgs = []
 
         function publishMsg(json){
+            if(areRedisMessagesReady == false){
+                pendindMsgs.push(json);
+                return
+            }
             let div = document.getElementById('msgs')
-            if(json.userid == localStorage.getItem('userid')){
-                div.innerHTML += createOwnMsg(json.userName, json.userColor,json.text, json.time)
+
+            if(json.userName == "SYSTEM"){
+                div.innerHTML += createSystemMsg("[SYSTEM]", json.text, json.time)
             }else{
-                div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
+                if(json.userid == localStorage.getItem('userid')){
+                    div.innerHTML += createOwnMsg(json.userName, json.userColor,json.text, json.time)
+                }else{  
+                    div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
+                }
             }
             div.scrollTop = div.scrollHeight;
         }
 
         var mySocket = new WebSocket('ws://' + window.location.hostname + ':6061' );
         
-        var pendindMsgs = []
         mySocket.onmessage = function (event) {
             let json = JSON.parse(event.data);
+            let systemMessage;
 
             if(json.userName == "SYSTEM") {
                 processSystemReq(json, document);
                 return;
             }
-            if(areRedisMessagesReady == false){
-                pendindMsgs.push(json);
-            }else{
-                publishMsg(json)
-            }
+            publishMsg(json)
         };
         mySocket.onclose = (event) => {
             showPopup("alo! alo! ta9rib reseaux 9as, trah refreshi el page")

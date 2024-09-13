@@ -29,10 +29,10 @@ async function onConnected(user){
         for(let i =0; i<=connected_users.length-1; i++){
             if(connected_users[i].ws.readyState == WebSocket.OPEN){
                 if(connected_users[i].id != user.id){
-                    let msg = new Message("SYSTEM" , JSON.stringify({greet: user.name + greeting}), Date.now(), user.id);
+                    let msg = new Message("SYSTEM" , JSON.stringify({greet: user.name + greeting}), Date.now());
                     connected_users[i].ws.send(JSON.stringify(msg).toString());
                 }else{
-                    let msg = new Message("SYSTEM" , JSON.stringify({id: user.id, name: user.name}), Date.now(), user.id);
+                    let msg = new Message("SYSTEM" , JSON.stringify({id: user.id, name: user.name}), Date.now());
                     user.ws.send(JSON.stringify(msg).toString())
 
                     let msgs = await redis.getMessages()
@@ -55,11 +55,12 @@ function onMessage(user, message){
     if(!cool.checkCooldown(user)) return;
 
     console.log("user with id ", user.id ," sent a message")
-    
+
+    let msg = new Message(user.name , message, Date.now(), user.id, user.color);
+    redis.saveToRedis(msg);    
+
     for(let i =0; i<=connected_users.length-1; i++){
         if(connected_users[i].ws.readyState == WebSocket.OPEN){
-            let msg = new Message(user.name , message, Date.now(), user.id, user.color);
-            redis.saveToRedis(msg);
             connected_users[i].ws.send(JSON.stringify(msg).toString());
         }
     }

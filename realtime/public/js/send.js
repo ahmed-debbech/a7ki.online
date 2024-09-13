@@ -9,7 +9,7 @@ function cooldown(){
     document.getElementById("numberCoolSec").innerText = "quelques"
     setTimeout(()=>{
         document.getElementById('cooldown').hidden = true
-    }, 1500)
+    }, 2000)
 }
 
 function fail(){

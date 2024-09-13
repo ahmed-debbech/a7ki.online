@@ -12,9 +12,8 @@ function processSystemReq(json, page){
         return;
     }
     if(json1.greet){
-        let div = page.getElementById('msgs')
-        div.innerHTML += createSystemMsg("[SYSTEM]", json1.greet, json.time)
-        div.scrollTop = div.scrollHeight;
+        json.text = json1.greet
+        publishMsg(json)
         return; 
     }
     if(json1.numberOn){
@@ -22,12 +21,12 @@ function processSystemReq(json, page){
         num.innerText = json1.numberOn 
     }
     if(json1.messages){
+        areRedisMessagesReady = true;
         for(let i=0; i<=json1.messages.length-1; i++){
             console.log(json1.messages[i])
             publishMsg(json1.messages[i])
         }
         document.getElementById("send").disabled = false
-        areRedisMessagesReady = true;
         for(let o = 0; 0 <=pendindMsgs.length-1; o++){
             publishMsg(pendindMsgs[o]);
         }

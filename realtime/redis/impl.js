@@ -2,6 +2,7 @@ const User = require("../model/user");
 var redis = require("./redis")
 
 function saveToRedis(msg){
+    console.log("new message is getting saved: " + msg.tile)
     redis.getRedis().set('m'+msg.time ,JSON.stringify(msg));
 }
 
