@@ -2,7 +2,6 @@ const { MongoClient } = require('mongodb');
 
 // Connection URL
 const url = process.env.MONGOSTR;
-console.log(process.env.MONGOSTR)
 const client = new MongoClient(url);
 var database;
 
@@ -15,16 +14,23 @@ async function main() {
   console.log('Connected successfully to Mongo DB server');
   const db = client.db(dbName);
   database = db
+}
 
-  return 'done.';
+function success(){
+}
+
+function failed(err){
+  console.log("error")
+  console.log(err)
+  client.close()
 }
 
 function connect(){
     main()
-    .then(console.log)
-    .catch(console.error)
-    .finally(() => client.close());
+    .then(success)
+    .catch(failed)
 }
+
 module.exports = {
     connect,
     database
