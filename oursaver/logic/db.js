@@ -1,27 +1,31 @@
 const { MongoClient } = require('mongodb');
-// or as an es module:
-// import { MongoClient } from 'mongodb'
 
 // Connection URL
 const url = process.env.MONGOSTR;
+console.log(process.env.MONGOSTR)
 const client = new MongoClient(url);
+var database;
 
 // Database Name
-const dbName = 'myProject';
+const dbName = 'official';
 
 async function main() {
   // Use connect method to connect to the server
   await client.connect();
-  console.log('Connected successfully to server');
+  console.log('Connected successfully to Mongo DB server');
   const db = client.db(dbName);
-  const collection = db.collection('documents');
-
-  // the following code examples can be pasted here...
+  database = db
 
   return 'done.';
 }
 
-main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => client.close());
+function connect(){
+    main()
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => client.close());
+}
+module.exports = {
+    connect,
+    database
+}
