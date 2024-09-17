@@ -1,4 +1,4 @@
 const cron = require('node-cron')
-const core = require('./core')
+let core = require('./core')
 
-cron.schedule('*/10 * * * * *', core.saveRedis)
+cron.schedule('*/10 * * * * *', async () => core.saveRedis(), true)

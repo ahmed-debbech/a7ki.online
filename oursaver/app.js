@@ -4,10 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config()
-require("./logic/cron")
 
 var mongo = require("./logic/db")
-
+mongo.connect().then((res) => {
+  mongo.success()
+  require("./logic/cron")
+})
+.catch((err) => {
+  mongo.failed(err)
+})
 
 var indexRouter = require('./routes/index');
 
@@ -21,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 
-mongo.connect()
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

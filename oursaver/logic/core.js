@@ -1,21 +1,16 @@
-const redis = require("redis");
+const Redis = require('ioredis');
 
-let redisClient;
-
+let redisClient
+this.redisMap
 
 async function startRedisClient() {
     let redisURL = process.env.REDIS_URL
     if (redisURL) {
-        redisClient = redis.createClient({ url: redisURL }).on("error", (e) => {
-            console.log(`Failed to create the Redis client with error:`);
-        });
-
         try {
-            await redisClient.connect();
-            console.log(`Connected to Redis successfully!`);
-            return 0;
+            this.redisClient = new Redis(redisURL)
+            return this.redisClient
         } catch (e) {
-            console.log(`Connection to Redis failed with error:` + e);
+            console.log(`Connection to Redis failed with error: `, e);
             return 1;
         }
     }else{
@@ -26,18 +21,36 @@ async function startRedisClient() {
 
 
 async function saveRedis(){
-    let err = await startRedisClient();
-    if(err != 0) {
-        redisClient.disconnect()
+    
+    let redisClient = await this.startRedisClient();
+    redisClient.on("connect", async () => {
+        console.log("connected successfully to redis instance")
+        
+        const keys = await this.redisClient.keys('*')
+        const values = await this.redisClient.mget(keys);
+
+        let map = new Map()
+        for(let h=0; h<=keys.length-1; h++){
+            map.set(keys[h], values[h])
+        }
+
+        this.redisMap = map
+
+        await this.redisClient.disconnect()
+        console.log("Closed Redis connection")
+
+        saveToMongo()
+    })
+    redisClient.on("error", ()=> {
+        this.redisClient.disconnect()
         console.log("redis instance is not accessible, so no saving")
-        return;
-    }
+    })
 
-
-    redisClient.disconnect()
 }
 
-
+async function saveToMongo(){
+    console.log(this.redisMap)
+}
 
 module.exports ={
     saveRedis

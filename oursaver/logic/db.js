@@ -17,21 +17,22 @@ async function main() {
 }
 
 function success(){
+  console.log("MONGO connection established")
 }
 
 function failed(err){
-  console.log("error")
+  console.log("MONGO failed to connect")
   console.log(err)
   client.close()
 }
 
-function connect(){
-    main()
-    .then(success)
-    .catch(failed)
+async function connect(){
+  await main()
 }
 
 module.exports = {
     connect,
-    database
+    database,
+    failed,
+    success
 }
