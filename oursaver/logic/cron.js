@@ -1,4 +1,15 @@
 const cron = require('node-cron')
 let core = require('./core')
 
-cron.schedule('*/10 * * * * *', async () => core.saveRedis(), true)
+let isRunning = false
+
+async function run(){
+    if(!isRunning) {
+        isRunning = true
+        await core.saveRedis()
+        isRunning = false
+    }
+}
+cron.schedule('*/10 * * * * *', async () => {
+    run()
+})
