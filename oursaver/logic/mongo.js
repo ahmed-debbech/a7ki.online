@@ -1,6 +1,13 @@
+let mongo = require("./db")
 
-function saveToMongo(map){
-    console.log(map)
+async function saveToMongo(map){
+    //console.log(map)
+    try{
+        const res = await mongo.database().collection("users").insertOne({rr: "rr"});
+        console.log(res)
+    }catch(e){
+        console.log(e)
+    }
 }
 
 module.exports = {

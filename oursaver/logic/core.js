@@ -2,13 +2,13 @@ const redis = require('./redis');
 const mongo = require("./mongo")
 
 async function core(){
-    redis.saveRedis().then((res) => {
+    redis.saveRedis().then(async (res) => {
         if(res != null){
-            mongo.saveToMongo(res)
+            await mongo.saveToMongo(res)
         }
     })
     .catch((err) => {
-        console.log("could not run cron job due to redis problem!")
+        console.log("could not run cron job due to a problem!")
     })
 }
 
