@@ -1,7 +1,37 @@
 const Redis = require('ioredis');
+const redisUtils = require('./utils/redis_utils')
 
 let redisClient
 let redisMap = null
+let latestIndex = {
+    u : null,
+    m : null
+}
+
+function filterMessages(newmap, map){
+
+    if(latestIndex.m == null){
+        //sort to get last index
+        console.log(map)
+        return map
+    }
+
+    for(let [key, value] of map){
+        if(redisUtils.isMassage(key)){
+            if(redisUtils.extractMsgIdNum(key) > latestIndex.m){
+                newmap.set(key, value)
+            }
+        }
+        latestIndex.m = redisUtils.extractMsgIdNum(key)   
+    }
+    return newmap
+}
+
+function filterData(map){
+    let newmap = new Map()
+    newmap = filterMessages(newmap, map)
+    return newmap;
+}
 
 async function saveRedis(){
 
@@ -11,7 +41,7 @@ async function saveRedis(){
             console.log("connected successfully to redis instance")
             
             const keys = await redisClient.keys('*')
-            if(keys.length == 0) {await closeRedis();  resolve(redisMap); return;}
+            if(keys.length == 0) {await closeRedis();  resolve(null); return;}
 
             const values = await redisClient.mget(keys);
 
@@ -56,5 +86,6 @@ async function closeRedis(){
 }
 
 module.exports = {
-    saveRedis
+    saveRedis,
+    filterData
 }
