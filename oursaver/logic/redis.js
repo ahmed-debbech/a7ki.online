@@ -3,34 +3,50 @@ const redisUtils = require('./utils/redis_utils')
 
 let redisClient
 let redisMap = null
-let latestIndex = {
-    u : null,
-    m : null
+let lastSync = {
+    users : -1,
+    messages : -1
 }
 
-function filterMessages(newmap, map){
-
-    if(latestIndex.m == null){
-        //sort to get last index
-        console.log(map)
-        return map
-    }
+function filterMessages(map){
+    let newmap = new Map()
 
     for(let [key, value] of map){
-        if(redisUtils.isMassage(key)){
-            if(redisUtils.extractMsgIdNum(key) > latestIndex.m){
+        if(redisUtils.isMessage(key)){
+            let keynum = redisUtils.extractMsgTime(value)
+            if(keynum > lastSync.messages){
                 newmap.set(key, value)
             }
         }
-        latestIndex.m = redisUtils.extractMsgIdNum(key)   
     }
+    lastSync.messages = Date.now()
+    return newmap
+}
+
+function filterUsers(map){
+    let newmap = new Map()
+
+    for(let [key, value] of map){
+        if(redisUtils.isUser(key)){
+            let keynum = redisUtils.extractUserEnterTime(value)
+            if(keynum > lastSync.users){
+                newmap.set(key, value)
+            }
+        }
+    }
+    lastSync.users = Date.now()
     return newmap
 }
 
 function filterData(map){
-    let newmap = new Map()
-    newmap = filterMessages(newmap, map)
-    return newmap;
+    let msgMap = new Map()
+    let usrMap = new Map()
+    msgMap = filterMessages(map)
+    usrMap = filterUsers(map)
+    return {
+        messages: msgMap,
+        users: usrMap
+    };
 }
 
 async function saveRedis(){

@@ -5,6 +5,8 @@ async function core(){
     redis.saveRedis().then(async (res) => {
         if(res != null){
             await mongo.saveToMongo(res)
+        }else{
+            console.log("empty redis")
         }
     })
     .catch((err) => {
