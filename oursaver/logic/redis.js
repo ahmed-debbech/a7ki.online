@@ -101,7 +101,20 @@ async function closeRedis(){
     console.log("Closed Redis connection")
 }
 
+function getLastSync(){
+    return lastSync
+}
+
+function setLastSync(lasts){
+    lastSync.messages = lasts.filter((e) => e._id == "m")[0].last
+    lastSync.users = lasts.filter((e) => e._id == "u")[0].last
+    console.log(lastSync)
+}
+
+
 module.exports = {
     saveRedis,
-    filterData
+    filterData,
+    getLastSync,
+    setLastSync
 }
