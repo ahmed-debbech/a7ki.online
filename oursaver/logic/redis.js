@@ -2,6 +2,7 @@ const Redis = require('ioredis');
 const redisUtils = require('./utils/redis_utils')
 
 let redisClient
+const numberOfShownMessages = 25;
 let redisMap = null
 let lastSync = {
     users : -1,
@@ -19,7 +20,6 @@ function filterMessages(map){
             }
         }
     }
-    lastSync.messages = Date.now()
     return newmap
 }
 
@@ -34,7 +34,6 @@ function filterUsers(map){
             }
         }
     }
-    lastSync.users = Date.now()
     return newmap
 }
 
@@ -42,7 +41,10 @@ function filterData(map){
     let msgMap = new Map()
     let usrMap = new Map()
     msgMap = filterMessages(map)
+    lastSync.messages = Date.now()
     usrMap = filterUsers(map)
+    lastSync.users = Date.now()
+
     return {
         messages: msgMap,
         users: usrMap
@@ -108,13 +110,36 @@ function getLastSync(){
 function setLastSync(lasts){
     lastSync.messages = lasts.filter((e) => e._id == "m")[0].last
     lastSync.users = lasts.filter((e) => e._id == "u")[0].last
-    console.log(lastSync)
+    console.log("last sync was: ", lastSync)
 }
 
+
+async function updateRedis(){
+    //sort all messages in redis
+    console.log("updating redis...")
+    if(redisMap == null || redisClient.size == 0) return
+
+    let messagesOnly = []
+
+    for(let [key, value] of redisMap){
+        if(redisUtils.isMessage(key)){
+            messagesOnly.push(value)
+        }
+    }
+
+    messagesOnly = messagesOnly.sort((a, b) => JSON.parse(a).time - JSON.parse(b).time)
+    // remove all the first untill we have 25 left
+    messagesOnly.splice(0, messagesOnly.length-numberOfShownMessages)
+
+    //and remove all users
+    
+    //update redis 
+}
 
 module.exports = {
     saveRedis,
     filterData,
     getLastSync,
-    setLastSync
+    setLastSync,
+    updateRedis
 }

@@ -4,7 +4,18 @@ const mongo = require("./mongo")
 async function core(){
     redis.saveRedis().then(async (res) => {
         if(res != null){
-            await mongo.saveToMongo(res)
+            try{
+                await mongo.saveToMongo(res)
+            }catch(e){
+                console.log("global problem in saveToMongo()")
+                return;
+            }
+            try{
+                await redis.updateRedis();
+            }catch(e){
+                console.log("global problem in updateRedis()")
+                return;
+            }
         }else{
             console.log("empty redis")
         }
