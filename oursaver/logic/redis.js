@@ -54,7 +54,7 @@ function filterData(map){
 async function saveRedis(){
 
     return new Promise(async (resolve, reject) => {
-        let redisClient = await startRedisClient();
+        redisClient = await startRedisClient();
         redisClient.on("connect", async () => {
             console.log("connected successfully to redis instance")
             
@@ -113,6 +113,23 @@ function setLastSync(lasts){
     console.log("last sync was: ", lastSync)
 }
 
+async function modifyRedisEntries(valuesToAdd, valuesToDelete){
+    //console.log(valuesToAdd)
+    //console.log(valuesToDelete)
+
+    redisClient = await startRedisClient();
+    if(valuesToDelete != null){
+        for(let [key, value] of valuesToDelete){
+            await redisClient.del(key ,JSON.stringify(value));
+        }
+    }
+    if(valuesToAdd != null){
+        for(let [key, value] of valuesToAdd){
+            await redisClient.set(key ,JSON.stringify(value));
+        }
+    }
+    await closeRedis()
+}
 
 async function updateRedis(){
     //sort all messages in redis
@@ -120,20 +137,41 @@ async function updateRedis(){
     if(redisMap == null || redisClient.size == 0) return
 
     let messagesOnly = []
+    let usersOnly = []
 
     for(let [key, value] of redisMap){
         if(redisUtils.isMessage(key)){
             messagesOnly.push(value)
         }
+        if(redisUtils.isUser(key)){
+            usersOnly.push(value)
+        }
     }
 
     messagesOnly = messagesOnly.sort((a, b) => JSON.parse(a).time - JSON.parse(b).time)
-    // remove all the first untill we have 25 left
-    messagesOnly.splice(0, messagesOnly.length-numberOfShownMessages)
+    // remove all the first untill we have numberOfShownMessages left
+    messagesOnly.splice(messagesOnly.length-numberOfShownMessages, messagesOnly.length)
 
-    //and remove all users
-    
-    //update redis 
+    //update redis
+    //convert to maps
+    //if(messagesOnly.length==0 || usersOnly.length==0) return
+   
+    const messagesMap = new Map();
+    const usersMap = new Map();
+    messagesOnly.map((ob) => {
+        let j = JSON.parse(ob)
+        messagesMap.set("m"+j.time, j)
+    })
+    usersOnly.map((ob) => {
+        let j = JSON.parse(ob)
+        usersMap.set("u"+j.id, j)
+    })
+    let addd= new Map(); addd.set(":;", 3)
+    try{
+        await modifyRedisEntries(null, new Map([...usersMap, ...messagesMap]))
+    }catch(e){
+        console.log(e)
+    }
 }
 
 module.exports = {
