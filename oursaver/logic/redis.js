@@ -154,7 +154,7 @@ async function updateRedis(){
 
     messagesOnly = messagesOnly.sort((a, b) => JSON.parse(a).time - JSON.parse(b).time)
     // remove all the first untill we have numberOfShownMessages left
-    messagesOnly.splice(messagesOnly.length-numberOfShownMessages, messagesOnly.length)
+    messagesOnly.splice(Math.abs(messagesOnly.length-numberOfShownMessages), messagesOnly.length)
 
     //update redis
     //convert to maps
