@@ -2,7 +2,7 @@ const Redis = require('ioredis');
 const redisUtils = require('./utils/redis_utils')
 
 let redisClient
-const numberOfShownMessages = 25;
+const numberOfShownMessages = 5;
 let redisMap = null
 let lastSync = {
     users : -1,
@@ -108,8 +108,12 @@ function getLastSync(){
 }
 
 function setLastSync(lasts){
-    lastSync.messages = lasts.filter((e) => e._id == "m")[0].last
-    lastSync.users = lasts.filter((e) => e._id == "u")[0].last
+    try{
+        lastSync.messages = lasts.filter((e) => e._id == "m")[0].last
+        lastSync.users = lasts.filter((e) => e._id == "u")[0].last
+    }catch(e){
+        console.log("unecessary error catched when setting last sync")
+    }
     console.log("last sync was: ", lastSync)
 }
 
