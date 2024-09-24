@@ -154,7 +154,9 @@ async function updateRedis(){
 
     messagesOnly = messagesOnly.sort((a, b) => JSON.parse(a).time - JSON.parse(b).time)
     // remove all the first untill we have numberOfShownMessages left
-    messagesOnly.splice(0, Math.abs(messagesOnly.length-numberOfShownMessages))
+    let msgsToBeDeleted = []
+    if(messagesOnly.length > numberOfShownMessages)
+    msgsToBeDeleted = messagesOnly.splice(0, Math.abs(messagesOnly.length-numberOfShownMessages))
 
     //update redis
     //convert to maps
@@ -162,7 +164,7 @@ async function updateRedis(){
    
     const messagesMap = new Map();
     const usersMap = new Map();
-    messagesOnly.map((ob) => {
+    msgsToBeDeleted.map((ob) => {
         let j = JSON.parse(ob)
         messagesMap.set("m"+j.time, j)
     })
@@ -170,7 +172,6 @@ async function updateRedis(){
         let j = JSON.parse(ob)
         usersMap.set("u"+j.id, j)
     })
-    let addd= new Map(); addd.set(":;", 3)
     try{
         await modifyRedisEntries(null, new Map([...usersMap, ...messagesMap]))
     }catch(e){
