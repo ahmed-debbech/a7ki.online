@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cron = require('./logic/chronic')
 require('dotenv').config()
-require('./redis/redis').startRedisClient()
+var redis = require('./redis/redis')
+redis.startRedisClient()
+redis.listenToMessageEvents()
 
 var indexRouter = require('./routes/index');
 

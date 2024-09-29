@@ -20,7 +20,7 @@ function sortArray(array){
 async function getMessages(){
     let keys = await redis.getRedis().keys("m*")
     //let msgs = await redis.getRedis().get("m*")
-    keys = sortArray(keys)
+    keys = sortArray(keys) 
     let msgs = [];
     for(let i=0; i<=keys.length-1; i++){
         msgs.push(JSON.parse(await redis.getRedis().get(keys[i])))
