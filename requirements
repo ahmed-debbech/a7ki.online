@@ -1,0 +1,1 @@
+* in the redis docker container you have to run "CONFIG SET notify-keyspace-events "AKE"" to enable keyspaces notifs
