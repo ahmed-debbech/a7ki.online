@@ -42,4 +42,7 @@ function processSystemReq(json, page){
     if(json1.error){
         showPopup(json1.error.toString())
     }
+    if(json1.update){
+        console.log(json1.update)
+    }
 }

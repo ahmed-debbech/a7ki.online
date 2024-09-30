@@ -15,6 +15,10 @@ class SocketHandler {
     static onDisconnected(user){
         events.onDisconnected(user)
     }
+
+    static onUpdateMessage(messageDescision){
+        events.onUpdateMessage(messageDescision)
+    }
 }
 
 module.exports = SocketHandler;

@@ -35,7 +35,7 @@ async function onConnected(user){
                     let msg = new Message("SYSTEM" , JSON.stringify({id: user.id, name: user.name}), Date.now());
                     user.ws.send(JSON.stringify(msg).toString())
 
-                    let msgs = await redis.getMessages()
+                    let msgs = await redis.getLegitMessages()
                     msg = new Message("SYSTEM" , JSON.stringify({messages: msgs}), Date.now());
                     user.ws.send(JSON.stringify(msg).toString())
                 }
@@ -77,9 +77,22 @@ function onDisconnected(user){
     }
 }
 
+function onUpdateMessage(messageDecision){
+
+    let msg = new Message("SYSTEM" , JSON.stringify({update: messageDecision}), Date.now());
+
+    if(msg != undefined)
+    for(let i =0; i<=connected_users.length-1; i++){
+        if(connected_users[i].ws.readyState == WebSocket.OPEN){
+            connected_users[i].ws.send(JSON.stringify(msg).toString());
+        }
+    }
+}
+
 module.exports = {
     onConnected,
     onMessage,
     onDisconnected,
+    onUpdateMessage,
     connected_users
 }

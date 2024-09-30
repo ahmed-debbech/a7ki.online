@@ -6,8 +6,20 @@ var logger = require('morgan');
 var cron = require('./logic/chronic')
 require('dotenv').config()
 var redis = require('./redis/redis')
+var updateCallback = require('./redis/update_msg')
+var socketHandler = require("./logic/socket_handler")
+
 redis.startRedisClient()
-redis.listenToMessageEvents()
+redis.listenToMessageEvents().then((subscriber) => { 
+
+  subscriber.on('pmessage', async (pattern, channel, event) => {
+    let messageDecision = await updateCallback.decideMessageStatusAfterSignal(subscriber, pattern, channel, event)
+    console.log(messageDecision)
+    if(messageDecision && messageDecision.event)
+    socketHandler.onUpdateMessage(messageDecision)
+  });
+
+})
 
 var indexRouter = require('./routes/index');
 
