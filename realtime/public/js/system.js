@@ -44,5 +44,15 @@ function processSystemReq(json, page){
     }
     if(json1.update){
         console.log(json1.update)
+        let event = json1.update
+        let msgIdInDom = event.key
+
+        if(event.event == "DELETED"){
+            page.getElementById(msgIdInDom).remove()
+        }
+        if(event.event == "BANNED"){
+            page.getElementById(msgIdInDom).innerHTML = "THIS MESSAGE WAS BANNED BY MODERATOR"
+            page.getElementById(msgIdInDom).style.backgroundColor="#ff6666"
+        }
     }
 }

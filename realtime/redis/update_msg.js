@@ -23,7 +23,6 @@ async function decideMessageStatusAfterSignal(subscriber, pattern, channel, even
     console.log(channel)
     console.log(event)*/
     const key = channel.split(':').pop();
-    
     // If the event is "set", fetch the new value
     if (event == 'set') {
         return await msgIsBannedFromChat(key)
