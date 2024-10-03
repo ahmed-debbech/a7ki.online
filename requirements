@@ -1,1 +1,2 @@
 * in the redis docker container you have to run "CONFIG SET notify-keyspace-events "AKE"" to enable keyspaces notifs
+* you need to specify a file that contains all whitelisted ips called "whiteip" in any path you want, just link it in the .env file for admin microservice WHITE_IP_LIST

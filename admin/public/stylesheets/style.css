@@ -1,0 +1,268 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply a beautiful font to the entire page */
+body {
+  font-family: 'Poppins', sans-serif; /* Modern sans-serif font */
+  background-color: #f0f2f5; /* Light gray background */
+  color: #333; /* Dark gray text for better contrast */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Make the body take the full viewport height */
+}
+
+/* Header styling */
+.header {
+  background-color: #3b983b; /* Sleek blue */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: sticky; /* Make the header stick to the top */
+  top: 0;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  flex-shrink: 0; /* Prevent the header from shrinking */
+}
+
+/* Header title styling */
+.header h1 {
+  margin: 0;
+  font-size: 36px; /* Bigger font size */
+  font-family: 'Poppins', sans-serif; /* Use the same font as the body */
+  font-weight: 700; /* Make it bold */
+  letter-spacing: 2px; /* Slight letter spacing */
+  text-transform: uppercase; /* Uppercase for emphasis */
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6), /* Soft white glow */
+               0 0 16px rgba(59, 89, 152, 0.5); /* Soft blue glow */
+}
+
+/* Main content area styling */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Allow the content to grow and fill available space */
+}
+
+/* Welcome section styling */
+.welcome-section {
+  text-align: center;
+  margin: 20px 0; /* Slight margin to separate from header */
+}
+
+.welcome-section h2 {
+  font-size: 24px;
+  color: #3b983b; /* Consistent with header color */
+  margin-bottom: 10px;
+}
+
+.online-users {
+  font-size: 14px;
+  color: #555; /* Softer gray */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Chat panel styling */
+.chat-panel {
+  display: flex;
+  flex-direction: column; /* Stack chat-box and input-area vertically */
+  flex: 1; /* Allow the chat panel to grow and fill available space */
+  padding: 20px;
+  overflow: hidden; /* Prevent scrolling within chat-panel */
+}
+
+/* Chat box */
+.chat-box {
+  display: flex;
+  flex-direction: column; /* Stack messages and input-area vertically */
+  width: 100%;
+  max-width: 600px;
+  height: 78vh; /* Fixed height for the chat box */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* More rounded corners */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+  overflow: hidden; /* Prevent content overflow */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Messages section */
+.messages {
+  flex: 1; /* Allow messages to take up available space */
+  padding: 15px;
+  overflow-y: auto; /* Allow vertical scrolling */
+  background-color: #ffffff;
+}
+
+/* Message styling */
+.message {
+  margin-bottom: 6px; /* Slight margin to separate messages */
+  padding: 5px 0; /* Removed padding for a cleaner look */
+  border-radius: 0; /* Removed rounded corners */
+  width: 100%; /* Make messages span the full width of the parent */
+  overflow-wrap: break-word; /* Ensure text wraps properly */
+  box-shadow: none; /* Removed shadow */
+  background-color: transparent; /* Transparent background */
+}
+
+/* Adjust alignment styles to remove background */
+.sys, .own, .rec {
+  background-color: transparent; /* Remove background color */
+  width: 100%; /* Ensure full width */
+  padding: 0; /* Remove padding */
+  align-self: stretch; /* Stretch to fill the container */
+}
+
+/* Remove the time alignment styles */
+.message-time {
+  font-size: 12px;
+  color: #888;
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* Input area styling */
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #f9f9f9;
+  flex-shrink: 0; /* Prevent the input-area from shrinking */
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.input-area input:focus {
+  border-color: #3b983b; /* Blue border on focus */
+  outline: none;
+}
+
+.input-area button {
+  padding: 12px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3b983b;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.input-area button:hover {
+  background-color: #344e86; /* Darker blue on hover */
+}
+
+/* Cooldown info styling */
+.cooldown-info {
+  background-color: #f1f1f1;
+  color: #888;
+  text-align: center;
+  padding: 8px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.cooldown-info .icon {
+  margin-right: 5px;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #fdecea; /* Softer red */
+  color: #d04d4d; /* Dark red */
+  text-align: center;
+  padding: 8px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.error-message .icon {
+  margin-right: 5px;
+}
+
+/* Popup background */
+.popup {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1001; /* Above all other content */
+}
+
+/* Popup content */
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Popup message styling */
+#popup-message {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Popup close button */
+#popup-close {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3b983b;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#popup-close:hover {
+  background-color: #344e86; /* Darker blue on hover */
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 24px; /* Adjusted for smaller screens */
+  }
+
+  .input-area input,
+  .input-area button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}

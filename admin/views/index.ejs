@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a7ki.online</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <script type="text/javascript" src="js/system.js"></script>
+
+    <script>
+
+        function publishMsg(json){
+            if(areRedisMessagesReady == false){
+                pendindMsgs.push(json);
+                return
+            }
+            let div = document.getElementById('msgs')
+
+            if(json.userName == "SYSTEM"){
+                div.innerHTML += createSystemMsg("[SYSTEM]", json.text, json.time)
+            }else{
+                if(json.userid == localStorage.getItem('userid')){
+                    div.innerHTML += createOwnMsg(json.userName, json.userColor,json.text, json.time)
+                }else{  
+                    div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
+                }
+            }
+            div.scrollTop = div.scrollHeight;
+            
+        }
+
+        /*var mySocket = new WebSocket('ws://' + window.location.hostname + ':6065' );
+        
+        mySocket.onmessage = function (event) {
+            let json = JSON.parse(event.data);
+            let systemMessage;
+
+            if(json.userName == "SYSTEM") {
+                processSystemReq(json, document);
+                return;
+            }
+            publishMsg(json)
+        };
+        mySocket.onclose = (event) => {
+            showPopup("alo! alo! ta9rib reseaux 9as, trah refreshi el page")
+            console.log("closed ws")
+        };*/
+
+    </script>
+
+
+
+    <header class="header">
+        <h1>a7ki.online</h1>
+    </header>
+
+    <div class="welcome-section">
+        <h2 id="greeting">ADMIN CONSOLE</h2>
+        <div class="online-users">
+            <span class="dot"></span> <p id="numOn"> 0</p>&nbsp;en ligne
+        </div>
+    </div>
+
+    <main class="chat-panel">
+        <div class="chat-box">
+            <div class="messages" id="msgs">
+            </div>
+        </div>
+    </main>
+
+    <!-- Popup HTML -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <p id="popup-message">This is your message.</p>
+            <button id="popup-close">Close</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/send.js"></script>
+    <script>
+        document.getElementById("send").addEventListener('click', () => {
+            sendMessage(mySocket, document.getElementById("field").value)
+        })
+        const textInput = document.getElementById('field');
+        textInput.addEventListener('keydown', (event) => {
+            if (event.key == 'Enter' || event.keyCode === 13) {
+                sendMessage(mySocket, document.getElementById("field").value)
+            }
+        });
+    </script>
+
+
+</body>
+</html>
