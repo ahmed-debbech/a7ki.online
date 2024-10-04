@@ -7,21 +7,25 @@ require('dotenv').config()
 var redis = require('./redis/redis')
 var updateCallback = require('./redis/update_msg')
 var ip_checker = require("./middlewares/ip_checker");
+var ips = require("./logic/ip")
+var messages = require("./logic/messages")
+
+var indexRouter = require('./routes/index');
+
+var app = express();
+
 
 redis.startRedisClient()
 redis.listenToMessageEvents().then((subscriber) => { 
 
   subscriber.on('pmessage', async (pattern, channel, event) => {
-    let messageDecision = await updateCallback.decideMessageStatusAfterSignal(subscriber, pattern, channel, event)
-    console.log(messageDecision)
 
+    let polledMessage = await updateCallback.decideMessageStatusAfterSignal(subscriber, pattern, channel, event)
+    if(polledMessage != null)
+    messages.setPolledMsgs(polledMessage)
   });
 
 })
-
-var indexRouter = require('./routes/index');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +37,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.enable('trust proxy');
+
+ips.load()
 
 app.use((req, res, next) => {
   ip_checker.check(req, res, next)
