@@ -32,8 +32,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.enable('trust proxy');
 
-app.use(ip_checker.check)
+app.use((req, res, next) => {
+  ip_checker.check(req, res, next)
+})
 
 app.use('/', indexRouter);
 
