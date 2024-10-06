@@ -17,7 +17,10 @@ router.get('/get_msg', async function(req, res, next) {
 });
 
 router.get('/poll/:userId', async function(req, res, next) {
-  messages.setWaitingUsersToBeNotified(res)
+  var t = setTimeout(() => {
+    messages.freeUser(req.params.userId)
+  }, 30000)
+  messages.setWaitingUsersToBeNotified(t, req.params.userId, res)
 });
 
 module.exports = router;

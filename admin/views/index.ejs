@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>a7ki.online</title>
+    <title>ADMIN CONSOLE - a7ki</title>
     <link rel="stylesheet" href="stylesheets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -14,41 +14,13 @@
     <script>
 
         function publishMsg(json){
-            if(areRedisMessagesReady == false){
-                pendindMsgs.push(json);
-                return
-            }
             let div = document.getElementById('msgs')
-
-            if(json.userName == "SYSTEM"){
-                div.innerHTML += createSystemMsg("[SYSTEM]", json.text, json.time)
-            }else{
-                if(json.userid == localStorage.getItem('userid')){
-                    div.innerHTML += createOwnMsg(json.userName, json.userColor,json.text, json.time)
-                }else{  
-                    div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
-                }
-            }
-            div.scrollTop = div.scrollHeight;
-            
+            if(json.banned)
+                div.innerHTML += createRecMsgBanned(json.userName, json.userColor ,json.text, json.time)
+            else
+                div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
+            div.scrollTop = div.scrollHeight;       
         }
-
-        /*var mySocket = new WebSocket('ws://' + window.location.hostname + ':6065' );
-        
-        mySocket.onmessage = function (event) {
-            let json = JSON.parse(event.data);
-            let systemMessage;
-
-            if(json.userName == "SYSTEM") {
-                processSystemReq(json, document);
-                return;
-            }
-            publishMsg(json)
-        };
-        mySocket.onclose = (event) => {
-            showPopup("alo! alo! ta9rib reseaux 9as, trah refreshi el page")
-            console.log("closed ws")
-        };*/
 
         function getAllMessages(){
             fetch("/get_msg")
@@ -58,8 +30,13 @@
                     }
                 })
                 .then(data => {
+                    console.log(data)
                     if (data) {
-                        console.log(data)
+                        let d = data.ms
+                        for(let i=0; i <= d.length-1; i++){
+                            let msg = d[i]
+                            publishMsg(msg)
+                        }
                     }
                 })
                 .catch(error => {
@@ -68,9 +45,11 @@
         }
 
         function fetchData() {
+            console.log("requesting with long polling...")
             const userId = Math.random().toString(36).substring(2, 15); // Simulate unique user ID
             fetch(`/poll/${userId}`)
                 .then(response => {
+                    console.log("got resppnse from long polling")
                     if (response.status === 204) {
                         // No content, retry immediately
                         fetchData();
@@ -81,6 +60,11 @@
                 .then(data => {
                     if (data) {
                         console.log(data)
+                        let d = data.update
+                        for(let i=0; i <= d.length-1; i++){
+                            let msg = d[i]
+                            publishMsg(msg)
+                        }
                         fetchData();
                     }
                 })
@@ -104,9 +88,7 @@
 
     <div class="welcome-section">
         <h2 id="greeting">ADMIN CONSOLE</h2>
-        <div class="online-users">
-            <span class="dot"></span> <p id="numOn"> 0</p>&nbsp;en ligne
-        </div>
+
     </div>
 
     <main class="chat-panel">

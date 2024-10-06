@@ -16,14 +16,21 @@ function setPolledMsgs(polledMessage){
    _updateWaitingUsers()
 }
 
-function setWaitingUsersToBeNotified(clientRes){
-    usersWaitingToBeNotified.push(clientRes)
+function setWaitingUsersToBeNotified(timeout, userid, clientRes){
+    usersWaitingToBeNotified.push({timeout: timeout, userid: userid, clientRes: clientRes})
+}
+
+function freeUser(userid){
+    console.log("Freeing user")
+    usersWaitingToBeNotified.filter((e) => e.userid == userid)[0].clientRes.json({update: null})
+    usersWaitingToBeNotified = usersWaitingToBeNotified.filter((e) => e.userid != userid)
 }
 
 function _updateWaitingUsers(){
 
     for(let i=0; i<=usersWaitingToBeNotified.length-1; i++){
-        usersWaitingToBeNotified[i].json({update: latestPolledMsgs})
+        usersWaitingToBeNotified[i].clientRes.json({update: latestPolledMsgs})
+        clearTimeout(usersWaitingToBeNotified[i].timeout)
     }
     usersWaitingToBeNotified = []
 }
@@ -31,5 +38,6 @@ function _updateWaitingUsers(){
 module.exports = {
     getNewMessages,
     setPolledMsgs,
-    setWaitingUsersToBeNotified
+    setWaitingUsersToBeNotified,
+    freeUser
 }

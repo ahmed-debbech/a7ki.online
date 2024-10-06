@@ -16,7 +16,11 @@ const formatTimestamp = (timestamp) => {
 function createRecMsg(username, color, text, time){
     return '<div id="m'+time+'" class="message rec"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
 }
-  
+ 
+function createRecMsgBanned(username, color, text, time){
+    return '<div id="m'+time+'" class="message rec banned"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
+}
+
 function createSystemMsg(username, text, time){
     return '<div id="m'+time+'" class="message sys"><div class="message-text"><b>'+username+' </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
 }

@@ -129,6 +129,11 @@ body {
   align-self: stretch; /* Stretch to fill the container */
 }
 
+.banned {
+  background-color: rgb(213, 98, 98); /* Remove background color */
+
+}
+
 /* Remove the time alignment styles */
 .message-time {
   font-size: 12px;
