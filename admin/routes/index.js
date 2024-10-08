@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/get_msg', async function(req, res, next) {
 
-
   let msgs = await messages.getNewMessages()
 
   res.json({ms: msgs});
@@ -22,5 +21,13 @@ router.get('/poll/:userId', async function(req, res, next) {
   }, 30000)
   messages.setWaitingUsersToBeNotified(t, req.params.userId, res)
 });
+
+router.get('/banMsg/:messageId', async function(req, res, next) {
+
+  let banned = await messages.banMessage(req.params.messageId)
+  res.json({isBanned: banned});
+
+});
+
 
 module.exports = router;

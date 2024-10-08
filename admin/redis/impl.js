@@ -64,10 +64,26 @@ async function saveNewUser(user){
     await redis.getRedis().set("u" + user.id ,JSON.stringify(uuser))
 }
 
+async function banMessage(msgid){
+    try{
+        let msg = await redis.getRedis().get(msgid.toString())
+        msg = JSON.parse(msg)
+        console.log(msg)
+        msg.banned = true
+        await redis.getRedis().set(msgid, JSON.stringify(msg))
+        return true
+    }catch(e){
+        console.log(e)
+        return false
+    }
+}
+
+
 module.exports = {
     saveToRedis,
     getMessages,
     getLegitMessages,
     assignNewUserId,
     saveNewUser,
+    banMessage
 }

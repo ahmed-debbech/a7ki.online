@@ -40,14 +40,14 @@ async function decideMessageStatusAfterSignal(subscriber, pattern, channel, even
 async function msgIsBannedFromChat(key){
     //check timestamp and see if msg has already been sent and update if needed
     const timest = key.substring(1);
-    if(timest < lastMsgTimetampStored){
+    //if(timest < lastMsgTimetampStored){
         console.log("this needs to be reviewed to see if it is banned")
         let message = await getOneMessage(key)
         if(message.banned != undefined){
             // so the message is banned from admin
             return new MessageDecision("BANNED", key, undefined)
         }
-    }
+    //}
 }
 
 async function msgIsDeletedFromChat(key){

@@ -14,19 +14,41 @@ const formatTimestamp = (timestamp) => {
 };
 
 function createRecMsg(username, color, text, time){
-    return '<div id="m'+time+'" class="message rec"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
+    return '<div id="m'+time+'" class="message rec canBan"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
 }
  
 function createRecMsgBanned(username, color, text, time){
     return '<div id="m'+time+'" class="message rec banned"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+text+'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>';
 }
 
-function createSystemMsg(username, text, time){
-    return '<div id="m'+time+'" class="message sys"><div class="message-text"><b>'+username+' </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
+function banMessage(id){
+    console.log(id)
+    fetch(`/banMsg/${id}`)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data) {
+                console.log(data)
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 }
 
-function createOwnMsg(username,color, text, time){
-    return '<div id="m'+time+'" class="message own"><div class="message-text"><b style="color: '+color+'">'+username+': </b> '+ text +'</div><div class="message-time">'+formatTimestamp(time)+'</div></div>'
+function msgExists(json){
+    let idd = ("m" + (json.time))
+    let dv = document.getElementById(idd)
+    if(dv == null) return false
+
+    if(idd == dv.id){
+        if(json.banned){
+            document.getElementById(idd).classList.add("banned")
+        }
+        return true
+    }
+    return false
 }
 
 const popup = document.getElementById('popup');

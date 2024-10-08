@@ -21,7 +21,6 @@ function setWaitingUsersToBeNotified(timeout, userid, clientRes){
 }
 
 function freeUser(userid){
-    console.log("Freeing user")
     usersWaitingToBeNotified.filter((e) => e.userid == userid)[0].clientRes.json({update: null})
     usersWaitingToBeNotified = usersWaitingToBeNotified.filter((e) => e.userid != userid)
 }
@@ -35,9 +34,14 @@ function _updateWaitingUsers(){
     usersWaitingToBeNotified = []
 }
 
+async function banMessage(messageId){
+    return await redis.banMessage(messageId)
+}
+
 module.exports = {
     getNewMessages,
     setPolledMsgs,
     setWaitingUsersToBeNotified,
-    freeUser
+    freeUser,
+    banMessage
 }

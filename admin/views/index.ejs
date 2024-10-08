@@ -9,17 +9,26 @@
 </head>
 <body>
 
-    <script type="text/javascript" src="js/system.js"></script>
-
     <script>
 
         function publishMsg(json){
+            if(msgExists(json)) return
+
             let div = document.getElementById('msgs')
             if(json.banned)
                 div.innerHTML += createRecMsgBanned(json.userName, json.userColor ,json.text, json.time)
             else
                 div.innerHTML += createRecMsg(json.userName, json.userColor ,json.text, json.time)
-            div.scrollTop = div.scrollHeight;       
+                        
+            let msgss = document.getElementsByClassName("canBan")
+
+            for(let i=0; i<=msgss.length-1; i++){
+                msgss[i].addEventListener("click", () => {
+                    banMessage(msgss[i].id)
+                })
+            }
+            div.scrollTop = div.scrollHeight;    
+              
         }
 
         function getAllMessages(){
@@ -107,19 +116,6 @@
     </div>
 
     <script type="text/javascript" src="js/script.js"></script>
-    <script type="text/javascript" src="js/send.js"></script>
-    <script>
-        document.getElementById("send").addEventListener('click', () => {
-            sendMessage(mySocket, document.getElementById("field").value)
-        })
-        const textInput = document.getElementById('field');
-        textInput.addEventListener('keydown', (event) => {
-            if (event.key == 'Enter' || event.keyCode === 13) {
-                sendMessage(mySocket, document.getElementById("field").value)
-            }
-        });
-    </script>
-
 
 </body>
 </html>

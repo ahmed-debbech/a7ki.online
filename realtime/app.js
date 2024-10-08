@@ -14,7 +14,7 @@ redis.listenToMessageEvents().then((subscriber) => {
 
   subscriber.on('pmessage', async (pattern, channel, event) => {
     let messageDecision = await updateCallback.decideMessageStatusAfterSignal(subscriber, pattern, channel, event)
-    console.log(messageDecision)
+    console.log("ee", messageDecision)
     if(messageDecision && messageDecision.event)
     socketHandler.onUpdateMessage(messageDecision)
   });

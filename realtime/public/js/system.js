@@ -1,7 +1,7 @@
-function processSystemReq(json, page){
+function processSystemReq(json){
     let json1 = JSON.parse(json.text);
     if(json1.id && json1.name){
-        page.getElementById('greeting').innerText= '3aslema, ' + json1.name +'!';
+        document.getElementById('greeting').innerText= '3aslema, ' + json1.name +'!';
         
         if(localStorage.getItem("userid") == null){
             showPopup("Marhba bik fi chat room anonyme, tnejem tahki taht esm mosta3ar, m3a twensa kifek kifhom." + 
@@ -17,7 +17,7 @@ function processSystemReq(json, page){
         return; 
     }
     if(json1.numberOn){
-        let num = page.getElementById("numOn")
+        let num = document.getElementById("numOn")
         num.innerText = json1.numberOn 
     }
     if(json1.messages){
@@ -46,13 +46,15 @@ function processSystemReq(json, page){
         console.log(json1.update)
         let event = json1.update
         let msgIdInDom = event.key
+        
+        if(document.getElementById(msgIdInDom) == null) return
 
         if(event.event == "DELETED"){
-            page.getElementById(msgIdInDom).remove()
+            document.getElementById(msgIdInDom).remove()
         }
         if(event.event == "BANNED"){
-            page.getElementById(msgIdInDom).innerHTML = "THIS MESSAGE WAS BANNED BY MODERATOR"
-            page.getElementById(msgIdInDom).style.backgroundColor="#ff6666"
+            document.getElementById(msgIdInDom).innerHTML = "THIS MESSAGE WAS BANNED BY MODERATOR"
+            document.getElementById(msgIdInDom).style.backgroundColor="#ff6666"
         }
     }
 }
