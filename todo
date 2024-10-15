@@ -1,4 +1,3 @@
 REALTIME
-* add compatibility in UI elements (*.js/html) after getting message upadtes from web sockets
 * also take the Uer-Agent 
 

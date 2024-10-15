@@ -1,5 +1,6 @@
-let mongo = require("./db")
-let redis = require("./redis")
+let mongo = require("../db")
+let redis = require("../redis/redis")
+let modeler = require("./modeler")
 
 async function updateLastSync(lastsync, which){
     try{
@@ -32,8 +33,8 @@ async function saveToMongo(map){
         try{
             let toSaveArr = Array.from(filterData.messages, ([id, body]) => ({ id, body }));
             if(toSaveArr.length == 0) return
-
-            const res = await mongo.database().collection("messages").insertMany(toSaveArr);
+            
+            const res = await mongo.database().collection("messages").insertMany(modeler.deserializeAndModel(toSaveArr));
             console.log(res)
 
             await updateLastSync(redis.getLastSync(), "m")
@@ -46,7 +47,7 @@ async function saveToMongo(map){
             let toSaveArr = Array.from(filterData.users, ([id, body]) => ({ id, body }));
             if(toSaveArr.length == 0) return
             
-            const res = await mongo.database().collection("users").insertMany(toSaveArr);
+            const res = await mongo.database().collection("users").insertMany(modeler.deserializeAndModel(toSaveArr));
             console.log(res)
 
             await updateLastSync(redis.getLastSync(), "u")

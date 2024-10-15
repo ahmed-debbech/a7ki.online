@@ -1,5 +1,5 @@
-const redis = require('./redis');
-const mongo = require("./mongo")
+const redis = require('./redis/redis');
+const mongo = require("./mongo/mongo")
 
 async function core(){
     redis.saveRedis().then(async (res) => {

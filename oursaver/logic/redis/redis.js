@@ -1,5 +1,5 @@
 const Redis = require('ioredis');
-const redisUtils = require('./utils/redis_utils')
+const redisUtils = require('../utils/redis_utils')
 
 let redisClient
 const numberOfShownMessages = 5;
