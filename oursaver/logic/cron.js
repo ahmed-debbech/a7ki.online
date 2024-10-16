@@ -6,7 +6,7 @@ let isRunning = false
 async function run(){
     if(!isRunning) {
         isRunning = true
-        await core()
+        await core.core()
         isRunning = false
     }
 }

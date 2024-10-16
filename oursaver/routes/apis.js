@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var logic = require("../logic/core")
 
 function isValidIPv4(ip) {
     const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -40,6 +41,9 @@ router.get('/users', function(req, res, next) {
     })
     return
   }
+
+  logic.getUsers(st, et, ip)
+
   res.json({
     "st":st,
     "et":et,

@@ -25,6 +25,15 @@ async function core(){
     })
 }
 
+function getUsers(start_time, end_time, ip){
+    if(ip && ip != ""){
+        console.log("ip exists")
+    }
+    console.log("ip not existing")
+    
+} 
 
-
-module.exports = core
+module.exports = {
+    core,
+    getUsers
+}

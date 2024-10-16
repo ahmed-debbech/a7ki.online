@@ -1,3 +1,6 @@
 REALTIME
 * also take the Uer-Agent 
+OURSAVER
+* search for users by existing names : db.users.aggregate([{$match: {$or: [{ name: {$regex: "m8afs"}}, {name: {$regex: "7omsa"}}]}}])
+
 
