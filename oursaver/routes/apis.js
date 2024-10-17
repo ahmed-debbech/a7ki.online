@@ -18,7 +18,7 @@ function isValidTimestamp(timestamp) {
     return parsed >= minTimestamp && parsed <= maxTimestamp;
 }
 
-router.get('/users', function(req, res, next) {
+router.get('/users', async function(req, res, next) {
   let st = req.query["start_time"]
   let et = req.query["end_time"]
   let ip = req.query["ip"]
@@ -42,13 +42,9 @@ router.get('/users', function(req, res, next) {
     return
   }
 
-  logic.getUsers(st, et, ip)
+  let users = await logic.getUsers(st, et, ip)
 
-  res.json({
-    "st":st,
-    "et":et,
-    "ip":ip
-  })
+  res.json(users)
 });
 
 module.exports = router;

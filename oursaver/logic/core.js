@@ -25,12 +25,17 @@ async function core(){
     })
 }
 
-function getUsers(start_time, end_time, ip){
+async function getUsers(start_time, end_time, ip){
+    let list = []
     if(ip && ip != ""){
-        console.log("ip exists")
+        console.log("d")
+        list = await mongo.getUsersWithTimeAndIp(start_time, end_time, ip)
+    }else{
+        console.log("pm")
+        list = await mongo.getUsersWithTime(start_time, end_time)
     }
-    console.log("ip not existing")
-    
+    console.log(list)
+    return list
 } 
 
 module.exports = {

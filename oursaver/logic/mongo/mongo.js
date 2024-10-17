@@ -57,7 +57,44 @@ async function saveToMongo(map){
     }
 }
 
+async function getUsersWithTimeAndIp(start, end, ip){
+
+    const pipeline = [
+         { $match: { firstEnter: { $gt: parseInt(start), $lt: parseInt(end) } } },
+         { $match: { ip: {$regex: ip}} }
+        ] 
+
+    var h = []
+    try{
+        var cursor = await mongo.database().collection("users").aggregate(pipeline).toArray()
+        await cursor.forEach(doc => {
+            h.push(doc)
+        });
+    }catch(e){
+        console.log(e)
+    }
+    return h
+}
+
+async function getUsersWithTime(start, end){
+    const pipeline = [
+        { $match: { firstEnter: { $gt: parseInt(start), $lt: parseInt(end) } } }
+    ] 
+    var h = []
+    try{
+        var cursor = await mongo.database().collection("users").aggregate(pipeline).toArray()
+        await cursor.forEach(doc => {
+            h.push(doc)
+        });
+    }catch(e){
+        console.log(e)
+    }
+    return h
+}
+
 module.exports = {
     saveToMongo,
-    getLastSyncFromMongo
+    getLastSyncFromMongo,
+    getUsersWithTimeAndIp,
+    getUsersWithTime
 }
