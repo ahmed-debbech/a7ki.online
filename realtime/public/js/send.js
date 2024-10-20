@@ -1,6 +1,6 @@
 function sendMessage(sock, text){
     if(text.length <= 0) return;
-    if(text.length > 256 ) {fail(); return;}
+    //if(text.length > 256 ) {fail(); return;}
     sock.send(text);
 }
 

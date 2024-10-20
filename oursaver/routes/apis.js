@@ -18,6 +18,12 @@ function isValidTimestamp(timestamp) {
     return parsed >= minTimestamp && parsed <= maxTimestamp;
 }
 
+function isValidUid(uid){
+  const uidd = Number(uid);
+  if(isNaN(uidd)) return false
+  return 0 <= uidd && uidd <= 999999999
+}
+
 router.get('/users', async function(req, res, next) {
   let st = req.query["start_time"]
   let et = req.query["end_time"]
@@ -45,6 +51,38 @@ router.get('/users', async function(req, res, next) {
   let users = await logic.getUsers(st, et, ip)
 
   res.json(users)
+});
+
+router.get('/messages', async function(req, res, next) {
+  let st = req.query["start_time"]
+  let et = req.query["end_time"]
+  let occ = req.query["occ"]
+  let uid = req.query["uid"]
+
+  if(st == undefined || et == undefined){
+    res.json({
+        error: "ERROR"
+    })
+    return
+  }
+  if(!isValidTimestamp(st) || !isValidTimestamp(et)){
+    res.json({
+        error: "ERROR"
+    })
+    return
+  }
+
+  if(uid && !isValidUid(uid)){
+    res.json({
+        error: "ERROR"
+    })
+    return
+  }
+  uid = parseInt(uid)
+
+  let messages = await logic.getMessages(st, et, occ, uid)
+
+  res.json(messages)
 });
 
 module.exports = router;

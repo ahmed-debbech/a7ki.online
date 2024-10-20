@@ -28,17 +28,27 @@ async function core(){
 async function getUsers(start_time, end_time, ip){
     let list = []
     if(ip && ip != ""){
-        console.log("d")
         list = await mongo.getUsersWithTimeAndIp(start_time, end_time, ip)
     }else{
-        console.log("pm")
         list = await mongo.getUsersWithTime(start_time, end_time)
     }
     console.log(list)
     return list
 } 
 
+async function getMessages(start_time, end_time, occ, uid){
+    let list = []
+    let filters = []
+    if(start_time) filters.push({"start_time" : start_time})
+    if(end_time) filters.push({"end_time" : end_time})
+    if(occ) filters.push({"occ" : occ})
+    if(uid) filters.push({"uid" : uid})
+    list = mongo.getMessagesWithFilter(filters)
+    return list
+} 
+
 module.exports = {
     core,
-    getUsers
+    getUsers,
+    getMessages
 }

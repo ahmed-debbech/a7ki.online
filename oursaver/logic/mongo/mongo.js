@@ -91,10 +91,32 @@ async function getUsersWithTime(start, end){
     }
     return h
 }
+async function getMessagesWithFilter(filters){
+    
+    let pipeline = []
+    for(let i =0; i<=filters.length-1; i++){
+        let e = filters[i] 
+        if(e.start_time) pipeline.push({ $match: { time: { $gt: parseInt(e.start_time) } } })
+        if(e.end_time) pipeline.push({ $match: { time: { $lt: parseInt(e.end_time) } } })
+        if(e.uid) pipeline.push({ $match: { userid: parseInt(e.uid)} })
+        if(e.occ) pipeline.push({ $match: { text: {$regex : e.occ } } })
+    }
+    var h = []
+    try{
+        var cursor = await mongo.database().collection("messages").aggregate(pipeline).toArray()
+        await cursor.forEach(doc => {
+            h.push(doc)
+        });
+    }catch(e){
+        console.log(e)
+    }
+    return h
+}
 
 module.exports = {
     saveToMongo,
     getLastSyncFromMongo,
     getUsersWithTimeAndIp,
-    getUsersWithTime
+    getUsersWithTime,
+    getMessagesWithFilter
 }

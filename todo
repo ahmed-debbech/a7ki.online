@@ -1,6 +1,8 @@
+ALL
+* a new branch to sanitise malicious input
 REALTIME
 * also take the Uer-Agent 
+* make redis remember the last user id
+
 OURSAVER
-* search for users by existing names : db.users.aggregate([{$match: {$or: [{ name: {$regex: "m8afs"}}, {name: {$regex: "7omsa"}}]}}])
-
-
+* be aware of regex problems in mongo

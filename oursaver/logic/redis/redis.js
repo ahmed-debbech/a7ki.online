@@ -2,7 +2,7 @@ const Redis = require('ioredis');
 const redisUtils = require('../utils/redis_utils')
 
 let redisClient
-const numberOfShownMessages = 5;
+const numberOfShownMessages = 25;
 let redisMap = null
 let lastSync = {
     users : -1,
