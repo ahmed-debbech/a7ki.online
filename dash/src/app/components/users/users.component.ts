@@ -26,6 +26,7 @@ export class UsersComponent implements OnInit {
     this.end_time = convertDateToTimestamp(end)
 
     let users = await this.userService.getUsersByTime(this.start_time, this.end_time)
+    console.log(users)
   }
 
 }
