@@ -12,6 +12,8 @@ export class UsersComponent implements OnInit {
   
   start_time : string = "";
   end_time : string = "";
+  ip_addr : string = "";
+
   users : User[] = []
 
   constructor(
@@ -22,11 +24,18 @@ export class UsersComponent implements OnInit {
 
   }
 
-  async goSearch(start: string, end: string){
+  async goSearch(start: string, end: string, ip : string){
     this.start_time = convertDateToTimestamp(start);
     this.end_time = convertDateToTimestamp(end)
+    this.ip_addr = ip;
 
-    let users = await this.userService.getUsersByTime(this.start_time, this.end_time)
+    let users
+    if(this.ip_addr.length == 0){
+      users = await this.userService.getUsersByTime(this.start_time, this.end_time)
+    }else{
+      users = await this.userService.getUsersByTimeAndIp(this.start_time, this.end_time, this.ip_addr)
+    }
+
     this.users = users
     console.log(this.users)
   }

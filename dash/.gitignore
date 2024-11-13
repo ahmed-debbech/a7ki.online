@@ -43,3 +43,4 @@ Thumbs.db
 
 #mine
 src/tests/test_parts.ts
+env.ts
