@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/services/users/user.service';
 import { convertDateToTimestamp } from 'src/app/utils/date';
 
@@ -11,7 +12,7 @@ export class UsersComponent implements OnInit {
   
   start_time : string = "";
   end_time : string = "";
-
+  users : User[] = []
 
   constructor(
     private userService : UserService
@@ -26,7 +27,8 @@ export class UsersComponent implements OnInit {
     this.end_time = convertDateToTimestamp(end)
 
     let users = await this.userService.getUsersByTime(this.start_time, this.end_time)
-    console.log(users)
+    this.users = users
+    console.log(this.users)
   }
 
 }
